@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ensek.API.IntegrationTests", "Ensek.API.IntegrationTests.csproj", "{4F0C61CE-771E-4A3A-8FF4-97CE6432C0EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F0C61CE-771E-4A3A-8FF4-97CE6432C0EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F0C61CE-771E-4A3A-8FF4-97CE6432C0EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F0C61CE-771E-4A3A-8FF4-97CE6432C0EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F0C61CE-771E-4A3A-8FF4-97CE6432C0EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC5B78B6-C0CF-4D12-A75D-24740C12DB10}
+	EndGlobalSection
+EndGlobal
