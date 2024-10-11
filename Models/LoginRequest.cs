@@ -15,7 +15,6 @@ namespace Ensek.API.IntegrationTests.Models
     {
         private readonly HttpClient httpClient;
         private HttpResponseMessage response;
-        private string bearerToken;
 
         public string username { get; set; }
         public string password { get; set; }
@@ -25,10 +24,11 @@ namespace Ensek.API.IntegrationTests.Models
             this.httpClient = HttpClientManager.ClientInstance;
         }
 
-        public void GetBearerToken()
+        public string GetBearerToken()
         {
             var loginRequest = new LoginRequest
             {
+                // add these to either a config file or environment variables? maybe a dictionary of user types?
                 username = "test",
                 password = "testing"
             };
@@ -42,9 +42,11 @@ namespace Ensek.API.IntegrationTests.Models
 
             var responseContent = response.Content.ReadAsStringAsync().Result;
             var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseContent);
-            bearerToken = loginResponse.Access_Token;
+            var bearerToken = loginResponse.Access_Token;
 
-            // Store bearerToken in scenario context?
+            // Store bearerToken in scenario context? Or just return it?
+            Console.WriteLine("Bearer token: " + bearerToken);
+            return bearerToken;
 
         }
     }

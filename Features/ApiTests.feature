@@ -3,6 +3,7 @@
 All test currently in one feature for viewability, but would usually split out into more defined feature file 
 
 #@Login
+# BUG: Login/Bearer currently token only needed for reset?
 #Scenario: A Bearer Access Token can be obtained 
 #	Given I am not logged in
 #	When I post a login request as a 'test' user
@@ -11,18 +12,18 @@ All test currently in one feature for viewability, but would usually split out i
 @Orders
 Scenario: Bought quatities of fuel can then be returned
 	Given the data has been reset
-	When I order <quantity> of <fuelType> fuel
-	Then a successful response response shows fuel remaing, quatity bought and ID
-	And that order can then be returned
+	When I order the following quatities of fuel
 	| quantity | fuelType		|
-	| 10       | electricity	|
+	| 10       | electric		|
 	| 20       | gas			|
 	| 40       | oil			|
+	Then a successful response response shows fuel remaing, quatity bought and ID
+	And that order can then be returned
 
 Scenario: Orders made before todays date are returned
-	Given the data has been reset
-	When I order '10' units of 'gas' fuel
-	Then that order is returned
+	Given A list of orders can be returned
+	When I list orders made before todays date
+	Then I provide a count of orders made before todays date
 
 Scenario: Individual fuel orders can be deleted
 	Given I have placed an order for '10' units of 'gas'

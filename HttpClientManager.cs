@@ -12,6 +12,7 @@ namespace Ensek.API.IntegrationTests
 
         static HttpClientManager()
         {
+            // add this to either config file or environment variables
             httpClient = new HttpClient { BaseAddress = new Uri("https://qacandidatetest.ensek.io") };
         }
 

@@ -83,7 +83,7 @@ namespace Ensek.API.IntegrationTests.Features
                     "Orders"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Bought quatities of fuel can then be returned", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 12
+#line 13
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -93,29 +93,29 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 13
- testRunner.Given("the data has been reset", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 14
- testRunner.When("I order <quantity> of <fuelType> fuel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 15
- testRunner.Then("a successful response response shows fuel remaing, quatity bought and ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("the data has been reset", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "quantity",
                             "fuelType"});
                 table1.AddRow(new string[] {
                             "10",
-                            "electricity"});
+                            "electric"});
                 table1.AddRow(new string[] {
                             "20",
                             "gas"});
                 table1.AddRow(new string[] {
                             "40",
                             "oil"});
-#line 16
- testRunner.And("that order can then be returned", ((string)(null)), table1, "And ");
+#line 15
+ testRunner.When("I order the following quatities of fuel", ((string)(null)), table1, "When ");
+#line hidden
+#line 20
+ testRunner.Then("a successful response response shows fuel remaing, quatity bought and ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 21
+ testRunner.And("that order can then be returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -128,7 +128,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Orders made before todays date are returned", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 22
+#line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -138,14 +138,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 23
- testRunner.Given("the data has been reset", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 24
- testRunner.When("I order \'10\' units of \'gas\' fuel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 25
- testRunner.Then("that order is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("A list of orders can be returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 26
+ testRunner.When("I list orders made before todays date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 27
+ testRunner.Then("I provide a count of orders made before todays date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -158,7 +158,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Individual fuel orders can be deleted", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 27
+#line 29
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -168,13 +168,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 28
+#line 30
  testRunner.Given("I have placed an order for \'10\' units of \'gas\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 29
+#line 31
  testRunner.When("I delete that order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 30
+#line 32
  testRunner.Then("the order is removed from the system", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -188,7 +188,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Ordering more fuel than is available retunrs an error", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 32
+#line 34
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -198,13 +198,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 33
+#line 35
  testRunner.Given("the returned available quantity of \'nuclear\' fuel is \'0\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 34
+#line 36
  testRunner.When("I try to order \'20\' units of \'nuclear\' fuel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 35
+#line 37
  testRunner.Then("I recieve an error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -218,7 +218,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Ordering fuel with a negative quantity returns an error", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 37
+#line 39
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -228,13 +228,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 38
+#line 40
  testRunner.Given("the returned quatity of \'gas\' fuel is positive", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 39
+#line 41
  testRunner.When("I try to order \'-10\' units of \'gas\' fuel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 40
+#line 42
  testRunner.Then("I recieve an error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
