@@ -13,6 +13,9 @@ Requested Scenarios covered:
 I initially outlined some, (but not every) other test that I thought it would be practical to do, however I feel I run out of time. There is one additional test in the form of "Ordering more fuel than is available returns an error". This not only tests that Nuclear Fuel can't be purchased past a quantity of 0, but highlights the fact the /energy response probably should be returned in an [ ] array, but is not.
 
 
+There are many improvements and refactoring and changes that could be made over a longer period of time. Most areas have issues with non-nullable values, but that is something I would normally take care of one things are fuctioning as I want them, also it something I am still learning about. Not everything is quite structured how I want, but I hope I have focused getting it past the basics.
+
+
 List of issues found
 
 PUT /ENSEK/buy/{id}/{quantity}
