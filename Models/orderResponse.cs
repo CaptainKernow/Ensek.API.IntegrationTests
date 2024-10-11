@@ -9,8 +9,8 @@ namespace Ensek.API.IntegrationTests.Models
     public class OrderResponse
     {
         public string Fuel { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int Quantity { get; set; }
-        public string Time { get; set; }
+        public DateTime Time { get; set; }
     }
 }

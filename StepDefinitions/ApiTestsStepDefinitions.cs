@@ -18,6 +18,8 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
         private HttpResponseMessage response;
         private string bearerToken;
         private LoginRequest loginRequest;
+        private BuyRequest buyRequest;
+        private int earlierOrderCount;
         private readonly ScenarioContext scenarioContext;
 
 
@@ -25,47 +27,27 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
         {
             this.httpClient = HttpClientManager.ClientInstance;
             this.loginRequest = loginRequest;
+            this.buyRequest = buyRequest;
             this.scenarioContext = scenarioContext;
         }
 
         [Given(@"the data has been reset")]
         public void GivenTheDataHasBeenReset()
         {
-            // Login/get bearer token
             bearerToken = loginRequest.GetBearerToken();
 
             // add token to header and Reset the data
             // BUG: Reset currently giving 401 despite the bearer token being in the header
-
-            // httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + bearerToken);
-            // response = httpClient.PostAsync("/ENSEK/reset", null).Result;
-            // Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            // TODO: Move into a method in the LoginRequest class or its own class
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + bearerToken);
+            response = httpClient.PostAsync("/ENSEK/reset", null).Result;
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [When(@"I order the following quatities of fuel")]
         public void WhenIOrderTheFollowingQuatitiesOfFuel(Table table)
         {
-            foreach (var row in table.Rows)
-            {
-                var quantity = row["quantity"];
-                var fuelType =row["fuelType"];
-                var id = FuelTypeMap.GetFuelTypeId(fuelType);
-
-                response = httpClient.PutAsync($"/ENSEK/buy/{id}/{quantity}", null).Result;
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-                var buyResponse = JsonConvert.DeserializeObject<BuyResponse>(responseContent);
-                var buyMessage = buyResponse.Message;
-
-                Console.WriteLine(responseContent);
-
-                // take each message and store it in a scenario context name based on the fuel type and quantity
-                // could we store these as a class object instead of a string to make them easier to access later?
-                // no need to check message length, as this can be done as part of processing the message in the next step
-                Console.WriteLine($"Saving message to scenario context as '{fuelType}_{quantity}'");
-                scenarioContext[$"{fuelType}_{quantity}"] = buyMessage;
-            }
+            buyRequest.BuyFuelFromTable(table);
         }
 
         [Then(@"a successful response response shows fuel remaing, quatity bought and ID")]
@@ -83,14 +65,14 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
             // calcualate how much fuel should cost based on the quantity bought and the fuel type unit price
             // BUG: Values are not correct way around for some fuel types
             // BUG: Prices/cost don't seem to match the quantity bought
-            // fancy string manipulation to extract the values from the message (would be nicer if the values were var in the response)
-            // store each GUID in scenario context for look up in the next step
+            // TODO: add fancy string manipulation to extract the values from the message (would be nicer if the values were var in the response)
+            // store each Order ID GUID in scenario context for look up in the next step
         }
 
         [Then(@"that order can then be returned")]
         public void ThenThatOrderCanThenBeReturned()
         {
-            // none of this feels very D.R.Y.
+            // TODO: none of this feels very D.R.Y.
             // define each GUID as a variable from the scenario context, again this would be easier if the context was a class object maybe?
             // hard coded for now, but sould be extracted from each response message/object
             var electricGuid = "f8c3b158-cf85-4ff0-8821-3593bf0595cc";
@@ -108,8 +90,7 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
             Assert.That(oilOrderResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
             // assert that the response contains the correct information
-            // BUG: currently giving 500
-
+            // BUG: get order by is currently giving 500 response
             var electricOrderContent = electricOrderResponse.Content.ReadAsStringAsync().Result;
             var electricOrder = JsonConvert.DeserializeObject<OrderResponse>(electricOrderContent);
             Assert.That(electricOrder.Quantity, Is.EqualTo(10));
@@ -125,20 +106,31 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
         {
             response = httpClient.GetAsync("/ENSEK/orders").Result;
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
-
         }
 
         [When(@"I list orders made before todays date")]
         public void WhenIListOrdersMadeBeforeTodaysDate()
         {
-            throw new PendingStepException();
+            earlierOrderCount = 0;
+            var orderResponseContent = response.Content.ReadAsStringAsync().Result;
+            List<OrderResponse> orders = JsonConvert.DeserializeObject<List<OrderResponse>>(orderResponseContent);
+
+            Console.WriteLine($"{orders.Count} orders found");
+
+            foreach (var order in orders)
+            {
+                if (order.Time <= DateTime.Today)
+                {
+                    Console.WriteLine($"Order ID: {order.Id}, Fuel: {order.Fuel}, Quantity: {order.Quantity}, Time: {order.Time}");
+                    earlierOrderCount++;
+                }
+            }
         }
 
         [Then(@"I provide a count of orders made before todays date")]
         public void ThenIProvideACountOfOrdersMadeBeforeTodaysDate()
         {
-            throw new PendingStepException();
+            Console.WriteLine($"{earlierOrderCount} orders made before today's date");
         }
 
         [Given(@"I have placed an order for '([^']*)' units of '([^']*)'")]
@@ -182,12 +174,5 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
         {
             throw new PendingStepException();
         }
-
-        [When(@"I try to order '([^']*)' units of '([^']*)' fuel")]
-        public void WhenITryToOrderUnitsOfFuel(string p0, string gas)
-        {
-            throw new PendingStepException();
-        }
-
     }
 }
