@@ -1,9 +1,14 @@
 Requested Scenarios covered:
 
+
 "Reset the test data" - I would expect this to normally done as part of a [Before Run] or similar, however it is encorporated into the "Bought quatities of fuel can then be returned" scenario as a Given/prereq. See below for reset issue.
+
 "Buy a quantity of each fuel" - Again there maybe call to add groups of test data as part of prerequirement step so here I have bought 3 types fuel in a single step (the order PUT being not implemented) during the "Bought quatities of fuel can then be returned" scenario, then verfied each order that was made.
+
 "Verify each order from the previous step" - I didn't have enough time to pull the values from the message string in the buy response, but I would recommend that the relavent data be returned as their own properties and value alongside the message. I have left some comment in the code around this, but this is also fulfilled by the "Bought quatities of fuel can then be returned" Scenario.
+
 "Confirm how many orders were created before today" - I wasn't completely sure how to put this in proper test context however I did cover it separately in the "Orders made before todays date are returned" Scenario
+
 
 I initially outlined some, (but not every) other test that I thought it would be practical to do, however I feel I run out of time. There is one additional test in the form of "Ordering more fuel than is available returns an error". This not only tests that Nuclear Fuel can't be purchased past a quantity of 0, but highlights the fact the /energy response probably should be returned in an [ ] array, but is not.
 
