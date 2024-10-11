@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace Ensek.API.IntegrationTests.StepDefinitions
 {
@@ -151,22 +152,40 @@ namespace Ensek.API.IntegrationTests.StepDefinitions
             throw new PendingStepException();
         }
 
-        [Given(@"the returned available quantity of '([^']*)' fuel is '([^']*)'")]
-        public void GivenTheReturnedAvailableQuantityOfFuelIs(string nuclear, string p1)
+        [Given(@"the returned available quantity of '([^']*)' fuel is (.*)")]
+        public void GivenTheReturnedAvailableQuantityOfFuelIs(string fuelType, int quantity)
         {
-            throw new PendingStepException();
+            response = httpClient.GetAsync("/ENSEK/energy").Result;
+            var energyResponseContent = response.Content.ReadAsStringAsync().Result;
+            Console.WriteLine(energyResponseContent);
+
+            List<EnergyType> energyTypes = JsonConvert.DeserializeObject<List<EnergyType>>(energyResponseContent);
+
+            foreach (var energyType in energyTypes)
+            {
+                if (energyType.UnitType == fuelType)
+                {
+                    Assert.That(energyType.QuantityOfUnits, Is.EqualTo(quantity));
+                }
+            }
         }
 
-        [When(@"I try to order '([^']*)' units of '([^']*)' fuel")]
-        public void WhenITryToOrderUnitsOfFuel(string p0, string nuclear)
+        [When(@"I try to order (.*) units of '([^']*)' fuel")]
+        public void WhenITryToOrderUnitsOfFuel(int quantity, string fuelType)
         {
-            throw new PendingStepException();
+            response = buyRequest.BuySingleFuelType(fuelType, quantity);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         }
 
         [Then(@"I recieve an error message")]
         public void ThenIRecieveAnErrorMessage()
         {
-            throw new PendingStepException();
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+            var buyResponse = JsonConvert.DeserializeObject<BuyResponse>(responseContent);
+            var buyMessage = buyResponse.Message;
+
+            // this could be made dynamic by passing the fuel type
+            Assert.That(buyMessage, Is.EqualTo("There is no nuclear fuel to purchase!"));
         }
 
         [Given(@"the returned quatity of '([^']*)' fuel is positive")]

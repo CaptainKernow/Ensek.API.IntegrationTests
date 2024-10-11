@@ -30,9 +30,9 @@ Scenario: Individual fuel orders can be deleted
 	When I delete that order
 	Then the order is removed from the system
 
-Scenario: Ordering more fuel than is available retunrs an error
-	Given the returned available quantity of 'nuclear' fuel is '0'
-	When I try to order '20' units of 'nuclear' fuel
+Scenario: Ordering more fuel than is available returns an error
+	Given the returned available quantity of 'nuclear' fuel is 0
+	When I try to order 20 units of 'nuclear' fuel
 	Then I recieve an error message
 
 Scenario: Ordering fuel with a negative quantity returns an error

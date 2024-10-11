@@ -47,5 +47,20 @@ namespace Ensek.API.IntegrationTests.Models
                 scenarioContext[$"{fuelType}_{quantity}"] = buyMessage;
             }
         }
+
+        public HttpResponseMessage BuySingleFuelType(string fuelType, int quantity)
+        {
+            var id = FuelTypeMap.GetFuelTypeId(fuelType);
+
+            response = httpClient.PutAsync($"/ENSEK/buy/{id}/{quantity}", null).Result;
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+            var responseContent = response.Content.ReadAsStringAsync().Result;
+            var buyResponse = JsonConvert.DeserializeObject<BuyResponse>(responseContent);
+            var buyMessage = buyResponse.Message;
+
+            Console.WriteLine(responseContent);
+            return response;
+        }
     }
 }
